@@ -11,7 +11,7 @@ dist
 web/report
 build
 web/specs.html
-web/index.html
+web/loginapp/node_modules
 *.orig
 api/.vs
 api/packages

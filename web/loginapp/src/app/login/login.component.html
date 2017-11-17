@@ -1,0 +1,10 @@
+  <form class="m-t" role="form" #f="ngForm" (ngSubmit)='authenticateUser()' novalidate>
+    <div class="form-group">
+      <input type="text" class="form-control" [(ngModel)]="username" placeholder="Username" required name="username" id="username">
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" [(ngModel)]="password" placeholder="Password" required name="password" id="password">
+    </div>
+    <p class="text-danger" *ngIf="showErrorMessage" id="error-message">Login Failed</p>
+    <input type="submit" class="btn btn-primary block full-width m-b" [disabled]="!f.valid" value='Login'>
+  </form>
