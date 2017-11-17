@@ -15,7 +15,6 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.valuesService.getValues()
     .subscribe(resp => {
-      debugger;
       this.values = resp;
     });
 
