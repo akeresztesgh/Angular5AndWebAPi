@@ -35,7 +35,7 @@ namespace api.Migrations
             {
                 if (userManager.Users.Any(i => i.UserName == user.UserName))
                     continue;
-                userManager.Create(user, "admin");
+                userManager.Create(user, "Admin1234!");
             }           
 
         }

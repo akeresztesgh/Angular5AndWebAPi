@@ -7,6 +7,8 @@ using System.Web.Http;
 
 namespace api.Controllers
 {
+    [Authorize]
+    [RoutePrefix("api/values")]
     public class ValuesController : ApiController
     {
         // GET api/values
