@@ -15,28 +15,7 @@ export class ValuesService {
   constructor(private http: HttpClient, private router: Router) { }
 
   getValues() {
-    const headers = this.createAuthorizationHeader();
-    return this.http.get(`${URL}/values`)     
-      .catch((err: Response) => this.handleError(err));
+    return this.http.get(`${URL}/values`);          
   }
 
-  private handleError(err: any) {
-    if (err.status === 401) {
-      this.router.navigate(['login']);
-    }
-    let resp = err.json();
-    if(resp.message){
-        err.message = resp.message;
-    }
-    return Observable.throw(err);
-  }
-
-  private createAuthorizationHeader(): Headers {
-    const token = localStorage.getItem('access_token');
-    const headers = new Headers({ 'Accept': 'application/json' });
-    if(token){
-        headers.append('Authorization', 'Bearer ' + token);
-    }
-    return headers;
-  }
 }

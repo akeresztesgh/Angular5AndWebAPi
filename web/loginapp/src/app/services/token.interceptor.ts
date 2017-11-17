@@ -11,6 +11,8 @@ import { AuthService } from './auth.service';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
+// NOTE: this link was a great help
+//     https://medium.com/@ryanchenkie_40935/angular-authentication-using-the-http-client-and-http-interceptors-2f9d1540eb8
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(public auth: AuthService, private router: Router) {}
