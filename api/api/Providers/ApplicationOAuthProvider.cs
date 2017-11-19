@@ -72,6 +72,28 @@ namespace api.Providers
 
         public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
         {
+            var userId = context.Ticket.Properties.Dictionary["userId"];
+            if (string.IsNullOrEmpty(userId))
+            {
+                context.SetError("invalid_grant", "User Id not set.");
+                return Task.FromResult<object>(null);
+            }
+
+            var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+            User user = userManager.Users.Single(i => i.Id == userId);
+
+            if (user == null)
+            {
+                context.SetError("invalid_grant", "User not found.");
+                return Task.FromResult<object>(null);
+            }
+
+            if (!user.IsActive)
+            {
+                context.SetError("invalid_grant", "Error logging in user.");
+                return Task.FromResult<object>(null);
+            }
+
             // Change auth ticket for refresh token requests
             var newIdentity = new ClaimsIdentity(context.Ticket.Identity);
             newIdentity.AddClaim(new Claim("newClaim", "newValue"));

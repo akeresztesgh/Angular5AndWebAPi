@@ -39,7 +39,7 @@ namespace api.Models
 
         public async Task<RefreshToken> FindRefreshTokenAsync(string token)
         {
-            return await RefreshTokens.SingleAsync(i => i.Token == token);
+            return await RefreshTokens.SingleOrDefaultAsync(i => i.Token == token);
         }
 
         public async Task<bool> RemoveRefreshToken(string refreshToken)
