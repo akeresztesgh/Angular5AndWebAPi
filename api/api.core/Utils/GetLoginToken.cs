@@ -22,6 +22,7 @@ namespace api.core.Utils
                 Path = Configuration.Config.GetSection("TokenAuthentication:TokenPath").Value,
                 Audience = Configuration.Config.GetSection("TokenAuthentication:Audience").Value,
                 Issuer = Configuration.Config.GetSection("TokenAuthentication:Issuer").Value,
+                Expiration = TimeSpan.FromMinutes(Convert.ToInt32(Configuration.Config.GetSection("TokenAuthentication:ExpirationMinutes").Value)),
                 SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
             };
         }
