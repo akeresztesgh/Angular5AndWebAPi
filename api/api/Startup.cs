@@ -46,16 +46,18 @@ namespace api
 
         public void ConfigureOAuthForJWT(IAppBuilder app)
         {
+            var expireTime = 
             PublicClientId = "self";
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/api/Token"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(api.Utils.Configuration.TokenExpireTimeMinutes),
                 // In production mode set AllowInsecureHttp = false
                 AllowInsecureHttp = true,
-                AccessTokenFormat = new JWTFormat(ConfigurationManager.AppSettings["Issuer"])
+                AccessTokenFormat = new JWTFormat(api.Utils.Configuration.TokenIssuer),
+                RefreshTokenProvider = new RefreshTokenProvider()
             };
             app.UseOAuthAuthorizationServer(OAuthOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
@@ -63,9 +65,9 @@ namespace api
 
         private void ConfigureJWTConsumption(IAppBuilder app)
         {
-            var issuer = ConfigurationManager.AppSettings["Issuer"];
-            string audienceId = ConfigurationManager.AppSettings["AudienceId"];
-            byte[] audienceSecret = TextEncodings.Base64Url.Decode(ConfigurationManager.AppSettings["AudienceSecret"]);
+            var issuer = api.Utils.Configuration.TokenIssuer;
+            string audienceId = Utils.Configuration.TokenAudienceId;
+            byte[] audienceSecret = TextEncodings.Base64Url.Decode(Utils.Configuration.TokenAudienceSecret);
 
             // Api controllers with an [Authorize] attribute will be validated with JWT
             app.UseJwtBearerAuthentication(

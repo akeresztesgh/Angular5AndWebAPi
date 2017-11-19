@@ -293,16 +293,23 @@
     <Compile Include="Migrations\201711161731460_Initial.Designer.cs">
       <DependentUpon>201711161731460_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711192044419_RefreshTokens.cs" />
+    <Compile Include="Migrations\201711192044419_RefreshTokens.Designer.cs">
+      <DependentUpon>201711192044419_RefreshTokens.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MyDbContext.cs" />
+    <Compile Include="Models\RefreshToken.cs" />
     <Compile Include="Models\Stuff.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
+    <Compile Include="Providers\RefreshTokenProvider.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\ApplicationRoleManager.cs" />
     <Compile Include="Utils\ApplicationUserManager.cs" />
     <Compile Include="Providers\JWTFormat.cs" />
+    <Compile Include="Utils\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -375,6 +382,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201711161731460_Initial.resx">
       <DependentUpon>201711161731460_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711192044419_RefreshTokens.resx">
+      <DependentUpon>201711192044419_RefreshTokens.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

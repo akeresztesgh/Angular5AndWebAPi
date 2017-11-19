@@ -36,8 +36,8 @@ namespace api.Utils
                 throw new ArgumentNullException("data");
             }
 
-            string audienceId = ConfigurationManager.AppSettings["AudienceId"];
-            string symmetricKeyAsBase64 = ConfigurationManager.AppSettings["AudienceSecret"];
+            string audienceId = Utils.Configuration.TokenAudienceId;
+            string symmetricKeyAsBase64 = Utils.Configuration.TokenAudienceSecret;
             var keyByteArray = TextEncodings.Base64Url.Decode(symmetricKeyAsBase64);
             var signingKey = new SigningCredentials(new InMemorySymmetricSecurityKey(keyByteArray),
                                                             SignatureAlgorithm,

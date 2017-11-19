@@ -57,7 +57,7 @@ namespace api.Providers
                 ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
-                AuthenticationProperties properties = CreateProperties(user.UserName, roles);
+                AuthenticationProperties properties = CreateProperties(user.UserName, user.Id, roles);
 
                 AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
                 context.Validated(ticket);
@@ -69,7 +69,20 @@ namespace api.Providers
             }
 
         }
-        
+
+        public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
+        {
+            // Change auth ticket for refresh token requests
+            var newIdentity = new ClaimsIdentity(context.Ticket.Identity);
+            newIdentity.AddClaim(new Claim("newClaim", "newValue"));
+
+            var newTicket = new AuthenticationTicket(newIdentity, context.Ticket.Properties);
+            context.Validated(newTicket);            
+
+            return Task.FromResult<object>(null);
+        }
+
+
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
             foreach (KeyValuePair<string, string> property in context.Properties.Dictionary)
@@ -87,7 +100,6 @@ namespace api.Providers
             {
                 context.Validated();
             }
-
             return Task.FromResult<object>(null);
         }
 
@@ -106,11 +118,12 @@ namespace api.Providers
             return Task.FromResult<object>(null);
         }
 
-        public static AuthenticationProperties CreateProperties(string userName, IEnumerable<string> roles)
+        public static AuthenticationProperties CreateProperties(string userName, string userId, IEnumerable<string> roles)
         {
             IDictionary<string, string> data = new Dictionary<string, string>
             {
                 { "userName", userName },
+                { "userId", userId },
                 { "roles", string.Join(",", roles.Select(x=>x.ToLower())) },
             };
             return new AuthenticationProperties(data);
