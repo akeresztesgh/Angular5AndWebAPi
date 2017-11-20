@@ -78,6 +78,7 @@ export class TokenInterceptor implements HttpInterceptor {
             .filter(token => token != null)
             .take(1)
             .switchMap(token => {
+                debugger;
                 return next.handle(this.addToken(req, token));
             });
     }
