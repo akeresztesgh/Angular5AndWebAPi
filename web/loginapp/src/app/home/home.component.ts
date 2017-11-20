@@ -9,14 +9,36 @@ import { ValuesService } from '../services/values.service';
 export class HomeComponent implements OnInit {
 
   values: any;
-
+  values1: any;
+  values2; any;
+  
   constructor(private valuesService: ValuesService) { }
 
   ngOnInit() {
     this.valuesService.getValues()
     .subscribe(resp => {
-      debugger;
       this.values = resp;
+    }, () => {
+      debugger;
+    });
+  }
+
+  multipleCalls(){
+    this.valuesService.getValues()
+    .subscribe(resp => {
+      this.values = resp;
+    }, () => {
+      debugger;
+    });
+    this.valuesService.getValues()
+    .subscribe(resp => {
+      this.values1 = resp;
+    }, () => {
+      debugger;
+    });
+    this.valuesService.getValues()
+    .subscribe(resp => {
+      this.values2 = resp;
     }, () => {
       debugger;
     });
