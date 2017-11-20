@@ -9,16 +9,14 @@ import { AuthService } from '../services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  username: '';
-  password: '';
+  username: string = 'admin';
+  password: string = 'Admin1234!';
   showErrorMessage = false;
 
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.authService.logout();
-    this.username = 'admin';
-    this.password = 'Admin1234!';
   }
 
   authenticateUser(){

@@ -22,6 +22,7 @@ export class AuthService {
       .map((result: any) => {
           if(result){
               localStorage.setItem('access_token', result.access_token);
+              localStorage.setItem('refresh_token', result.refresh_token);
               return true;
           }
           // Map returns Observable<type> by default
@@ -41,5 +42,17 @@ export class AuthService {
   get isLoggedIn(): boolean {
     let token = localStorage.getItem('access_token');
     return (token || '').length > 0;
+  }
+
+  refreshToken(): Observable<string>{
+    let refreshToken = localStorage.getItem('refresh_token');
+    let body = `grant_type=refresh_token&refresh_token=${refreshToken}`;
+    return this.http.post(`${URL}/token`, body)
+    .map((res:Response) => res.json())
+    .map((result: any) => {
+      localStorage.setItem('access_token', result.access_token);
+      localStorage.setItem('refresh_token', result.refresh_token);
+      return result.access_token;
+    });
   }
 }
