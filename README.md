@@ -6,6 +6,8 @@ using token (jwt) auth with angular 5 and web api
 
 
 ## open the api solution and restore the nuget packages
+NOTE:  this solution uses [.net core 2.0](https://blogs.msdn.microsoft.com/dotnet/2017/08/14/announcing-net-core-2-0/) and that must be installed.
+
 -execute api or api.core
 
 ## in the web/loginapp  folder
