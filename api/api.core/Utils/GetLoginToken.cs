@@ -41,9 +41,16 @@ namespace api.core.Utils
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
             };
 
-            foreach (var userClaim in user.Claims)
+            var userClaims = db.UserClaims.Where(i => i.UserId == user.Id);
+            foreach (var userClaim in userClaims)
             {
                 claims.Add(new Claim(userClaim.ClaimType, userClaim.ClaimValue));
+            }
+            var userRoles = db.UserRoles.Where(i => i.UserId == user.Id);
+            foreach (var userRole in userRoles)
+            {
+                var role = db.Roles.Single(i => i.Id == userRole.RoleId);
+                claims.Add(new Claim(Extensions.RoleClaimType, role.Name));
             }
 
             if (refreshToken == null)

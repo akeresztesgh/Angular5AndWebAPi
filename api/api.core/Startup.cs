@@ -53,6 +53,7 @@ namespace api.core
                 options.AddPolicy("UserManagement", policy => policy.RequireClaim("manage_user"));
                 options.AddPolicy("Admin", policy => policy.RequireClaim("admin"));
                 options.AddPolicy("User", policy => policy.RequireClaim("user"));
+                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Admin"));
             });
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>

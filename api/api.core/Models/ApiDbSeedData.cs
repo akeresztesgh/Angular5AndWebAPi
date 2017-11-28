@@ -69,16 +69,14 @@ namespace api.core.Models
                 };
                 var x = await userManager.CreateAsync(u, "Admin1234!");
             }
-            var uc = await userManager.GetClaimsAsync(u);
-            if (!uc.Any(x => x.Type == "phone"))
-            {
-                await userManager.AddClaimAsync(u, new System.Security.Claims.Claim("phone", "867-5309"));
-            }
+            var uc = await userManager.GetClaimsAsync(u);            
 
             if (!uc.Any(x => x.Type == Extensions.AdminClaim))
             {
                 await userManager.AddClaimAsync(u, new System.Security.Claims.Claim(Extensions.AdminClaim, true.ToString()));
             }
+            if (!await userManager.IsInRoleAsync(u, Extensions.AdminRole))
+                await userManager.AddToRoleAsync(u, Extensions.AdminRole);
         }
     }
 }
