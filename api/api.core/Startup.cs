@@ -48,12 +48,12 @@ namespace api.core
                 options.Filters.Add(new ExceptionFilter());
             });
 
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("UserManagement", policy => policy.RequireClaim("manage_user"));
-            //    options.AddPolicy("Admin", policy => policy.RequireClaim("admin"));
-            //    options.AddPolicy("User", policy => policy.RequireClaim("user"));
-            //});
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("UserManagement", policy => policy.RequireClaim("manage_user"));
+                options.AddPolicy("Admin", policy => policy.RequireClaim("admin"));
+                options.AddPolicy("User", policy => policy.RequireClaim("user"));
+            });
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -119,7 +119,7 @@ namespace api.core
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         // NOTE: DI is done here
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
-            ApiDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+            ApiDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -133,8 +133,6 @@ namespace api.core
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            ApiDbSeedData.Seed(userManager, roleManager).Wait();
 
             if (env.IsDevelopment())
             {

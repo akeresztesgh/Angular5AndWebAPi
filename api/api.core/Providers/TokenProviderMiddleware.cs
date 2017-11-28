@@ -65,7 +65,11 @@ namespace api.core.Providers
                     await context.Response.WriteAsync("Invalid username or password.");
                     return;
                 }
-                var user = await userManager.Users.SingleAsync(i => i.UserName == username);
+                var user = await userManager.Users
+                    .Include(x => x.Claims)
+                    .SingleAsync(i => i.UserName == username);
+                var claims = await userManager.GetClaimsAsync(user);
+
                 var db = context.RequestServices.GetService<ApiDbContext>();
                 var response = GetLoginToken.Execute(user, db, null);
 

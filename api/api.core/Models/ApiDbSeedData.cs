@@ -43,10 +43,6 @@ namespace api.core.Models
             var adminRole = await roleManager.FindByNameAsync("admin");
             var adminRoleClaims = await roleManager.GetClaimsAsync(adminRole);
 
-            if (!adminRoleClaims.Any(x => x.Type == "manage_user"))
-            {
-                await roleManager.AddClaimAsync(adminRole, new System.Security.Claims.Claim("manage_user", "true"));
-            }
             if (!adminRoleClaims.Any(x => x.Type == Extensions.AdminClaim))
             {
                 await roleManager.AddClaimAsync(adminRole, new System.Security.Claims.Claim(Extensions.AdminClaim, "true"));

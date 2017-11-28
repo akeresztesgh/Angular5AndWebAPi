@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace api.core.Controllers
 {    
-    [Authorize]
+    [Authorize(Policy ="Admin")]
     [Route("api/[controller]")]    
     public class ValuesController : Controller
     {
