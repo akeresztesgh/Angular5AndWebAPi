@@ -7,7 +7,6 @@ bower_components
 dist
 .tmp
 *.log
-*.css
 web/report
 build
 web/specs.html
